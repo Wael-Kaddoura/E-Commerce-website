@@ -42,7 +42,7 @@ if (!isset($_SESSION["logedin"])) {
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 </head>
 
 <body class="body-wrapper">
@@ -105,6 +105,7 @@ if (!isset($_SESSION["logedin"])) {
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
+								<a class="dropdown-item" href="all-items.php">All Items</a>
 									<a class="dropdown-item" href="category.html">Ad-Gird View</a>
 									<a class="dropdown-item" href="ad-listing-list.html">Ad-List View</a>
 								</div>
@@ -129,9 +130,20 @@ if (!isset($_SESSION["logedin"])) {
 
 							<li class="nav-item">
 							<?php if ($_SESSION["user_type"] == "store") {
-								echo '<a class="nav-link text-white add-button" href="ad-listing.html"><i class="fa fa-plus-circle"></i> Add Listing</a>';
+								echo '<a class="nav-link text-white add-button" href="ad-listing.php"><i class="fa fa-plus-circle"></i> Add Listing</a>';
 							} ?>
 							</li>
+
+							<li class="nav-item">
+							<?php if ($_SESSION["user_type"] == "user") {
+								echo '<a class="nav-link text-white add-button" href="ad-listing.php"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+								<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+							  </svg> <span class="badge rounded-pill bg-danger">5</span>
+							  </a>';
+							} ?>
+							
+							</li>
+							
 						</ul>
 					</div>
 				</nav>
@@ -230,6 +242,7 @@ if (!isset($_SESSION["logedin"])) {
 				</div>
 			</div>
 		</div>
+
 		<div class="row">
 			<!-- offer 01 -->
 			<div class="col-lg-12">
@@ -551,7 +564,7 @@ if (!isset($_SESSION["logedin"])) {
 					<h2>Start today to get more exposure and
 					grow your business</h2>
 					<ul class="list-inline mt-30">
-						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.html">Add Listing</a></li>
+						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.php">Add Listing</a></li>
 						<li class="list-inline-item"><a class="btn btn-secondary" href="category.html">Browser Listing</a></li>
 					</ul>
 				</div>
@@ -679,10 +692,13 @@ if (!isset($_SESSION["logedin"])) {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
 <script src="js/script.js"></script>
-<script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
   <script src="jquery-3.6.0.min.js"></script>
 
 <script src="js/index.js"></script>
+<script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 </body>
 
 </html>

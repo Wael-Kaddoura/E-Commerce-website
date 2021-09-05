@@ -47,7 +47,7 @@ else{
 		$_SESSION["gender"] = "Mr";
 		}else{$_SESSION["gender"] = "Ms";}
 
-		$_SESSION["user_type"] = $row["user_type"];
+		$_SESSION["user_type"] = $row["type"];
 
 	} else {
 		$_SESSION["store_id"] = $row2["id"];

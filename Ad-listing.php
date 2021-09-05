@@ -149,11 +149,11 @@ if (!isset($_SESSION["logedin"])) {
                             <input required type="text" class="border w-100 p-2 bg-white text-capitalize" name="item_name" placeholder="Item Name">
                        
                             <h6 class="font-weight-bold pt-4 pb-1">Description:</h6>
-                            <textarea required name="" id="" class="border p-3 w-100" rows="7" name="item_desc" placeholder="Write details about your product"></textarea>
+                            <textarea required id="" class="border p-3 w-100" rows="7" name="item_desc" placeholder="Write details about your product"></textarea>
                         </div>
                         <div class="col-lg-6">
                             <h6 class="font-weight-bold pt-4 pb-1">Select Item Category:</h6>
-                            <select name="" id="inputGroupSelect" class="w-100">
+                            <select name="item_category" id="item-category" class="w-100">
                                 <option disabled selected value="1">Select category</option>
                                 <option value="Phones">Phones</option>
                                 <option value="Cases">Cases</option>

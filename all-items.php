@@ -1,3 +1,24 @@
+<?php
+
+include "php/connection.php";
+
+session_start();
+
+$query = "Select * from items";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if (!isset($_SESSION["logedin"])) {
+	$_SESSION["logedin"] = false ;
+  }
+
+  if (!isset($_SESSION["user_type"])) {
+	$_SESSION["user_type"] = "user" ;
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +54,8 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
 </head>
 
@@ -98,11 +121,35 @@
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item">
-								<a class="nav-link login-button" href="login.html">Login</a>
+						<li class="nav-item nav-link">
+							<?php if ($_SESSION["logedin"]) {
+								echo $_SESSION["gender"]." ".$_SESSION["name"];
+							} ?>
+								</li>
+							<li id="login-button" class="nav-item">
+							<?php if ($_SESSION["logedin"]) {
+								echo '<a class="nav-link login-button" href="php/logout.php" id="login-status">Log out</a>';
+								
+							}else {
+								echo '<a class="nav-link login-button" href="login.php" id="login-status">Login</a>';
+							} ?>
+								
 							</li>
+
 							<li class="nav-item">
-								<a class="nav-link text-white add-button" href="ad-listing.html"><i class="fa fa-plus-circle"></i> Add Listing</a>
+							<?php if ($_SESSION["user_type"] == "store") {
+								echo '<a class="nav-link text-white add-button" href="ad-listing.php"><i class="fa fa-plus-circle"></i> Add Listing</a>';
+							} ?>
+							</li>
+
+                            <li class="nav-item">
+							<?php if ($_SESSION["user_type"] == "user") {
+								echo '<a class="nav-link text-white add-button" href="ad-listing.php"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+								<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+							  </svg> <span class="badge rounded-pill bg-danger" id = "cart-counter">0</span>
+							  </a>';
+							} ?>
+							
 							</li>
 						</ul>
 					</div>
@@ -254,339 +301,39 @@
 				</div>
 				<div class="product-grid-list">
 					<div class="row mt-30">
+
+                    <?php
+					while($row = $result->fetch_assoc()){
+				    ?>
+
 						<div class="col-sm-12 col-lg-4 col-md-6">
 							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
+                                    <div class="product-item bg-light">
+                                        <div class="card">
+                                            <div class="thumb-content">
+                                                <a href="single.html">
+                                                    <img class="card-img-top img-fluid" src="<?php echo $row["item_image"]; ?>" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title"><a href="single.html"></a><?php echo $row["name"]; ?></h4>
+                                                <ul class="list-inline product-meta">
+                                                    <li class="list-inline-item">
+                                                        <a href="single.html"><i class="fa fa-folder-open-o"></i><?php echo $row["category"]; ?></a>
+                                                    </li>
+                                                </ul>
+                                                <p class="card-text"><?php echo $row["description"]; ?></p>
+                                                <button type="button" id = "add-to-cart" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add To Cart</button>
 
-
-
+                                            </div>
+                                        </div>
+                                    </div>
 						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">Study Table Combo</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
 
+                        <?php
+					}
+				    ?>
 
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-3.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">Study Table Combo</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-3.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">Study Table Combo</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-3.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-						</div>
 					</div>
 				</div>
 				<div class="pagination justify-content-center">
@@ -732,7 +479,15 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
 <script src="js/script.js"></script>
+<script src="jquery-3.6.0.min.js"></script>
 
+
+<script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+<script src="js/add-to-cart.js"></script>
 </body>
 
 </html>
