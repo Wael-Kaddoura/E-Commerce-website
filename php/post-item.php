@@ -32,13 +32,20 @@ if (isset($_POST["item_desc"]) and $_POST["item_desc"] !="")
 		die("Try again next time Item Image");
 	}
 
+	if (isset($_POST["qty"]) and $_POST["qty"] !="")
+	{
+		$qty = $_POST["qty"];
+	}else{
+		die("Try again next time Item Image");
+	}
+
 	$item_category = $_POST["item_category"];
 
 $store_id = $_SESSION["store_id"];
 
-$sql1="INSERT INTO `items`(`name`, `description`, `category`, `price`, `store_id`, `item_image`) VALUES (?,?,?,?,?,?);"; 
+$sql1="INSERT INTO `items`(`name`, `description`, `category`, `price`,`qty`, `item_image`, `store_id`) VALUES (?,?,?,?,?,?,?);"; 
 $stmt1 = $connection->prepare($sql1);
-$stmt1->bind_param("ssssss",$item_name,$item_desc,$item_category, $price,$store_id, $item_image);
+$stmt1->bind_param("sssssss",$item_name,$item_desc,$item_category, $price, $qty, $item_image, $store_id);
 $stmt1->execute();
 
 header("Location:../index.php");

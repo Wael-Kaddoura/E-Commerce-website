@@ -68,53 +68,17 @@ if (!isset($_SESSION["new_account"])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto main-nav ">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.php">Home</a>
-                </li>
-                <li class="nav-item dropdown dropdown-slide">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Dashboard<span><i
-                        class="fa fa-angle-down"></i></span>
-                  </a>
+              <li class="nav-item active">
+								<a class="nav-link" href="index.html">Home</a>
+							</li>
 
-                  <!-- Dropdown list -->
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="dashboard.html">Dashboard</a>
-                    <a class="dropdown-item" href="dashboard-my-ads.html">Dashboard My Ads</a>
-                    <a class="dropdown-item" href="dashboard-favourite-ads.html">Dashboard Favourite Ads</a>
-                    <a class="dropdown-item" href="dashboard-archived-ads.html">Dashboard Archived Ads</a>
-                    <a class="dropdown-item" href="dashboard-pending-ads.html">Dashboard Pending Ads</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown dropdown-slide">
-                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    Pages <span><i class="fa fa-angle-down"></i></span>
-                  </a>
-                  <!-- Dropdown list -->
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="about-us.html">About Us</a>
-                    <a class="dropdown-item" href="contact-us.html">Contact Us</a>
-                    <a class="dropdown-item" href="user-profile.html">User Profile</a>
-                    <a class="dropdown-item" href="404.html">404 Page</a>
-                    <a class="dropdown-item" href="package.html">Package</a>
-                    <a class="dropdown-item" href="single.html">Single Page</a>
-                    <a class="dropdown-item" href="store.html">Store Single</a>
-                    <a class="dropdown-item" href="single-blog.html">Single Post</a>
-                    <a class="dropdown-item" href="blog.html">Blog</a>
+                            <li class="nav-item">
+								<a class="nav-link" href="all-items.php">See All Items</a>
+							</li>
 
-                  </div>
-                </li>
-                <li class="nav-item dropdown dropdown-slide">
-                  <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    Listing <span><i class="fa fa-angle-down"></i></span>
-                  </a>
-                  <!-- Dropdown list -->
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="category.html">Ad-Gird View</a>
-                    <a class="dropdown-item" href="ad-listing-list.html">Ad-List View</a>
-                  </div>
-                </li>
+                            <li class="nav-item">
+								<a class="nav-link" href="about-us.php">About Us</a>
+							</li>
               </ul>
               <ul class="navbar-nav ml-auto mt-10">
                 <li class="nav-item">
@@ -165,15 +129,11 @@ if (!isset($_SESSION["new_account"])) {
                   <input required type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
 
-                <div class="loggedin-forgot">
-                  <input type="checkbox" id="keep-me-logged-in">
-                  <label for="keep-me-logged-in" class="pt-3 pb-2">Keep me logged in</label>
-                </div>
+               
 
                 <button type="button" id ="submit-button"
                   class="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3" >Log in</button>
 
-                <a class="mt-3 d-block  text-primary" href="#">Forget Password?</a>
                 <a class="mt-3 d-block text-primary" href="user-register.php">Register as a User</a>
                 <a class="mt-3 d-block text-primary" href="store-register.php">Register Your Store</a>
               </fieldset>

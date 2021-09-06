@@ -1,11 +1,12 @@
 <?php
 include "connection.php";
 
-if (isset($_POST["email"]) and $_POST["email"] !="")
+session_start();
+
+if(isset($_POST["email"]) && $_POST["email"] != "" && strlen($_POST["email"]) > 5 && strrpos($_POST["email"], ".") > strrpos($_POST["email"], "@") && strrpos($_POST["email"], "@") != -1)
 	{
 		$email = $_POST["email"];
-	}else
-	{
+	} else{
 		die("Try again next time");
 	}
 
@@ -32,12 +33,10 @@ $row2 = $result2->fetch_assoc();
 
 
 if(empty($row) && empty($row2)){
-	session_start();
 	$_SESSION["login_error"] = true;
 	header('location: ../login.php');
 }
 else{
-	session_start();
 	$_SESSION["logedin"] = true;
 
 	if (empty($row2)) {
@@ -47,6 +46,7 @@ else{
 		$_SESSION["gender"] = "Mr";
 		}else{$_SESSION["gender"] = "Ms";}
 
+		$_SESSION["user_id"] = $row["id"];
 		$_SESSION["user_type"] = $row["type"];
 
 	} else {

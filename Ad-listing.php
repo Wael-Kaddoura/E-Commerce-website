@@ -61,49 +61,15 @@ if (!isset($_SESSION["logedin"])) {
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item active">
+            <li class="nav-item active">
 								<a class="nav-link" href="index.php">Home</a>
 							</li>
-							<li class="nav-item dropdown dropdown-slide">
-								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Dashboard<span><i class="fa fa-angle-down"></i></span>
-								</a>
-
-								<!-- Dropdown list -->
-								<div class="dropdown-menu">
-									<a class="dropdown-item" href="dashboard.html">Dashboard</a>
-									<a class="dropdown-item" href="dashboard-my-ads.html">Dashboard My Ads</a>
-									<a class="dropdown-item" href="dashboard-favourite-ads.html">Dashboard Favourite Ads</a>
-									<a class="dropdown-item" href="dashboard-archived-ads.html">Dashboard Archived Ads</a>
-									<a class="dropdown-item" href="dashboard-pending-ads.html">Dashboard Pending Ads</a>
-								</div>
+							<li class="nav-item">
+								<a class="nav-link" href="all-items.php">See All Items</a>
 							</li>
-							<li class="nav-item dropdown dropdown-slide">
-								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages <span><i class="fa fa-angle-down"></i></span>
-								</a>
-								<!-- Dropdown list -->
-								<div class="dropdown-menu">
-									<a class="dropdown-item" href="about-us.html">About Us</a>
-									<a class="dropdown-item" href="contact-us.html">Contact Us</a>
-									<a class="dropdown-item" href="user-profile.html">User Profile</a>
-									<a class="dropdown-item" href="404.html">404 Page</a>
-									<a class="dropdown-item" href="package.html">Package</a>
-									<a class="dropdown-item" href="single.html">Single Page</a>
-									<a class="dropdown-item" href="store.html">Store Single</a>
-									<a class="dropdown-item" href="single-blog.html">Single Post</a>
-									<a class="dropdown-item" href="blog.html">Blog</a>
 
-								</div>
-							</li>
-							<li class="nav-item dropdown dropdown-slide">
-								<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Listing <span><i class="fa fa-angle-down"></i></span>
-								</a>
-								<!-- Dropdown list -->
-								<div class="dropdown-menu">
-									<a class="dropdown-item" href="category.html">Ad-Gird View</a>
-									<a class="dropdown-item" href="ad-listing-list.php">Ad-List View</a>
-								</div>
+                            <li class="nav-item">
+								<a class="nav-link" href="about-us.php">About Us</a>
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
@@ -171,6 +137,16 @@ if (!isset($_SESSION["logedin"])) {
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="quantity">
+                              <h6 class="font-weight-bold pt-4 pb-1">Available Quantity:</h6>
+                              <div class="row px-3">
+                                  <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
+                                      <input required type="text" name="qty" class="border-0 py-2 w-100 price" placeholder="Quantity"
+                                          id="qty">
+                                  </div>
+                              </div>
+                          </div>
 
                             <div class="item-image">
                               <h6 class="font-weight-bold pt-4 pb-1">Item Image Link:</h6>

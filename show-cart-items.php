@@ -4,22 +4,31 @@ include "php/connection.php";
 
 session_start();
 
-$query = "Select * from items";
-$stmt = $connection->prepare($query);
-$stmt->execute();
-$result = $stmt->get_result();
-
 if (!isset($_SESSION["logedin"])) {
 	$_SESSION["logedin"] = false ;
   }
 
 if ($_SESSION["logedin"]) {
-	$query2 = "SELECT * FROM `cart_items` WHERE user_id = ?";
+    $query1 = "SELECT * FROM `cart_items` WHERE user_id = ?";
+	$stmt1 = $connection->prepare($query1);
+	$stmt1 -> bind_param("s", $_SESSION["user_id"]);
+	$stmt1->execute();
+	$result1 = $stmt1->get_result();
+
+    $num_cart_items = mysqli_num_rows($result1);
+
+
+	$query2 = "SELECT *, COUNT(items.id) AS count FROM `items`, cart_items WHERE cart_items.user_id = ? AND items.id = cart_items.item_id group BY items.id";
 	$stmt2 = $connection->prepare($query2);
 	$stmt2 -> bind_param("s", $_SESSION["user_id"]);
 	$stmt2->execute();
 	$result2 = $stmt2->get_result();
-	$num_cart_items = mysqli_num_rows($result2);
+
+    $query3 = "SELECT *, COUNT(items.id) AS count FROM `items`, cart_items WHERE cart_items.user_id = ? AND items.id = cart_items.item_id group BY items.id";
+	$stmt3 = $connection->prepare($query3);
+	$stmt3 -> bind_param("s", $_SESSION["user_id"]);
+	$stmt3->execute();
+	$result3 = $stmt3->get_result();
 }else{
 	$num_cart_items= "";
 }
@@ -28,7 +37,15 @@ if (!isset($_SESSION["user_type"])) {
 	$_SESSION["user_type"] = "user" ;
   }
 
+$total_price = 0;
+
+while ($row = $result3->fetch_assoc()) {
+    $total_price += floatval($row["count"]) * floatval($row["price"]);
+}
+                        
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,9 +82,11 @@ if (!isset($_SESSION["user_type"])) {
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
   <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <script src="jquery-3.6.0.min.js"></script>
+
 
 </head>
 
@@ -90,7 +109,8 @@ if (!isset($_SESSION["user_type"])) {
 							<li class="nav-item active">
 								<a class="nav-link" href="index.php">Home</a>
 							</li>
-							<li class="nav-item">
+
+                            <li class="nav-item">
 								<a class="nav-link" href="all-items.php">See All Items</a>
 							</li>
 
@@ -98,9 +118,7 @@ if (!isset($_SESSION["user_type"])) {
 								<a class="nav-link" href="about-us.php">About Us</a>
 							</li>
 
-		
-
-						</ul>
+                        						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 						<li class="nav-item nav-link">
 							<?php if ($_SESSION["logedin"]) {
@@ -144,57 +162,112 @@ if (!isset($_SESSION["user_type"])) {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="search-result bg-gray">
-					<h2>Listed Items</h2>
+					<h2 >Items Added to your Cart</h2>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			>
-			<div class="col-md-12">
-				<div class="product-grid-list">
-					<div class="row mt-30">
+			<div class="col-lg-3 col-md-4">
+				<div class="category-sidebar">
 
-                    <?php
-					while($row = $result->fetch_assoc()){
-				    ?>
+                    <div class="widget category-list">
+                        <h4 class="widget-header">Total:</h4>
+                        <ul class="category-list">
+                            <li><h4>$<?php echo $total_price ?></h4></li>
+                            
+                        </ul>
+                    </div>
 
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-								<div class="product-item bg-light">
-									<div class="card">
-										<div class="thumb-content">
-											<a href="display-item.php?id=<?php echo $row["id"]; ?>">
-												<img class="card-img-top img-fluid" src="<?php echo $row["item_image"]; ?>" alt="Card image cap">
-											</a>
-										</div>
-										<div class="card-body">
-											<h4 class="card-title"><a href="display-item.php?id=<?php echo $row["id"]; ?>"><?php echo $row["name"]; ?></a></h4>
-											<ul class="list-inline product-meta">
-												<li class="list-inline-item">
-													<a href="single.html"><i class="fa fa-folder-open-o"></i><?php echo $row["category"]; ?></a>
-												</li>
-											</ul>
-											<h4 class="card-title"><a href="single.html"></a>$<?php echo $row["price"]; ?></h4>
-											<p class="card-text"><?php echo $row["description"]; ?></p>
-											<?php if($_SESSION["user_type"] == "user"){ ?>
-												<button type="button" value="<?php echo $row["id"]; ?>" id = "" class="add-to-cart btn btn-success"><i class="fa fa-plus-circle"></i> Add To Cart</button>
-
-												<?php } ?>
-										</div>
-									</div>
-								</div>
-						</div>
-
-                        <?php
-					}
-				    ?>
-
-					</div>
 				</div>
+
+                
+			</div>
+			<div class="col-lg-9 col-md-8">
+
+
+				<!-- ad listing list  -->
+				<div class="ad-listing-list mt-20">
+                    
+                <?php
+                    while ($row = $result2->fetch_assoc()) {
+                        ?>
+
+                <div class="row p-lg-3 p-sm-5 p-4">
+                    <div class="col-lg-4 align-self-center">
+                        <a href="display-item.php?id=<?php echo $row["item_id"]; ?>">
+                            <img src="<?php echo $row["item_image"]; ?>" class="img-fluid" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-10">
+                                <div class="ad-listing-content">
+                                    <div>
+                                        <a href="display-item.php?id=<?php echo $row["item_id"]; ?>" class="font-weight-bold"><?php echo $row["name"]; ?></a>
+                                    </div>
+                                    <div>
+                                        <span class="font-weight-bold">$<?php echo $row["price"]; ?></span>
+                                    </div>
+                                    <ul class="list-inline mt-2 mb-3">
+                                        <li class="list-inline-item"><a href="category.html"> <i class="fa fa-folder-open-o"></i> <?php echo $row["category"]; ?></a></li>
+                                    </ul>
+                                    <p class="pr-5"><?php echo $row["description"]; ?></p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 align-self-center">
+
+                                <div class="product-ratings float-lg-right pb-3">
+                                    <ul class="list-inline justify-content-center">
+
+                                        <li class="list-inline-item add" value="<?php echo $row["item_id"]; ?>">
+                                        <button class="btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                        </button>
+                                        </li>
+
+                                        <li class="list-inline-item">
+                                        <h4>Quantity: <span id="qty<?php echo $row["item_id"]; ?>"><?php echo $row["count"]; ?></span></h4>
+                                        </li>
+                                        
+                                        <li class="list-inline-item remove"  value="<?php echo $row["item_id"]; ?>">
+                                            <button class="btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-minus" viewBox="0 0 16 16">
+                                            <path d="M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
+                                            <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                            </svg>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div class="">
+
+
+                  </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+                    } ?>
+
+                </div>
+
+
+
+				<!-- ad listing list  -->
+
 			</div>
 		</div>
 	</div>
 </section>
+
 <!--============================
 =            Footer            =
 =============================-->
@@ -313,9 +386,6 @@ if (!isset($_SESSION["user_type"])) {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
 <script src="js/script.js"></script>
-<!-- <script src="jquery-3.6.0.min.js"></script> -->
-
-
 <script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
@@ -323,6 +393,7 @@ if (!isset($_SESSION["user_type"])) {
 
 <script src="js/add-to-cart.js"></script>
 <script src="jquery-3.6.0.min.js"></script>
+
 
 </body>
 

@@ -8,14 +8,14 @@ if(isset($_POST["store_name"]) && $_POST["store_name"] != "" && strlen($_POST["s
 }
 
 
-if(isset($_POST["email"]) && $_POST["email"] != "" ) {
+if(isset($_POST["email"]) && $_POST["email"] != "" && strlen($_POST["email"]) > 5 && strrpos($_POST["email"], ".") > strrpos($_POST["email"], "@") && strrpos($_POST["email"], "@") != -1) {
     $email = $_POST["email"];
 }else{
     die ("Enter a valid input");
 }
 
 
-if(isset($_POST["password"]) && $_POST["password"] != "" ) {
+if(isset($_POST["password"]) && $_POST["password"] != "" && $_POST["password"] == $_POST["confirmPassword"] && strlen($_POST["password"]) > 5) {
     $password = hash("sha256", $_POST["password"]);
 }else{
     die ("Enter a valid input");
