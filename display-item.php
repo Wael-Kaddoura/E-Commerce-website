@@ -256,6 +256,12 @@ if (!isset($_SESSION["user_type"])) {
 						<h4>Price</h4>
 						<p>$<?php echo $item["price"] ?></p>
 					</div>
+
+					<div class="widget user text-center">
+						<h2><?php echo $item["qty"] ?> Left in Stock</h2>
+						
+					</div>
+
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
 						<h1>Seller:</h1>

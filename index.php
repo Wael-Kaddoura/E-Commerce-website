@@ -94,6 +94,12 @@ if (!isset($_SESSION["user_type"])) {
 								<a class="nav-link" href="index.php">Home</a>
 							</li>
 
+							<?php if ($_SESSION["user_type"] == "store") { ?>
+								<li class="nav-item">
+								<a class="nav-link" href="mydashboard.php">My Dashboard</a>
+								</li>
+							<?php } ?>
+
                             <li class="nav-item">
 								<a class="nav-link" href="all-items.php">See All Items</a>
 							</li>
@@ -201,8 +207,7 @@ if (!isset($_SESSION["user_type"])) {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="section-title">
-					<h2>Trending Adds</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, magnam.</p>
+					<h2>Trending Items</h2>
 				</div>
 			</div>
 		</div>
@@ -277,10 +282,6 @@ if (!isset($_SESSION["user_type"])) {
 				<div class="content-holder">
 					<h2>Start today to get more exposure and
 					grow your business</h2>
-					<ul class="list-inline mt-30">
-						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.php">Add Listing</a></li>
-						<li class="list-inline-item"><a class="btn btn-secondary" href="category.html">Browser Listing</a></li>
-					</ul>
 				</div>
 			</div>
 		</div>
