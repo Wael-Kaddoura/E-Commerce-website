@@ -211,6 +211,7 @@ $result2= $stmt2->get_result();
 								<td class="product-details">
 									<h3 class="title"><?php echo $row2["name"]; ?></h3>
 									<span class="add-id"><strong>Ad ID:</strong> <?php echo $row2["id"]; ?></span>
+                  <span class="add-id"><strong>Price:</strong> $<?php echo $row2["price"]; ?></span>
 								</td>
 								<td class="product-category"><span class="categories"><?php echo $row2["category"]; ?></span></td>
 								<td class="action" data-title="Action">
