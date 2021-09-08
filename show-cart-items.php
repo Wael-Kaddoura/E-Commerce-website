@@ -269,7 +269,7 @@ if (!isset($_SESSION["new_purchase"])) {
                     <div class="widget category-list">
                         <h4 class="widget-header">Total:</h4>
                         <ul class="category-list">
-                            <li><h4>$<?php echo $total_price ?></h4></li>                            
+                            <li><h4>$<span id = "total_price"><?php echo $total_price ?></span></h4></li>                            
                         </ul>
                     </div>
 

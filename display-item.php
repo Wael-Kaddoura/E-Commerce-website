@@ -77,6 +77,11 @@ if (!isset($_SESSION["user_type"])) {
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="jquery-3.6.0.min.js"></script>
+
+
 </head>
 
 <body class="body-wrapper">
@@ -252,21 +257,30 @@ if (!isset($_SESSION["user_type"])) {
 			</div>
 			<div class="col-md-4">
 				<div class="sidebar">
-					<div class="widget price text-center">
+
+				<div class="widget text-center bg-transparent border-0" >
+					</div>
+
+					<div class="widget price text-center bg-primary">
 						<h4>Price</h4>
 						<p>$<?php echo $item["price"] ?></p>
 					</div>
 
+					<div class = "d-flex  justify-content-center mt-5 mb-5 "> 
+					<?php if($_SESSION["user_type"] == "user"){ ?>
+						<button type="button" value="<?php echo $item["id"]; ?>" id = "" class="add-to-cart btn btn-success btn-lg"><i class="fa fa-plus-circle"></i> Add To Cart</button>
+
+					<?php } ?>
+					</div>
+
 					<div class="widget user text-center">
-						<h2><?php echo $item["qty"] ?> Left in Stock</h2>
-						
+						<h2><?php echo $item["qty"] ?> Left in Stock</h2>						
 					</div>
 
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
 						<h1>Seller:</h1>
 						<h4><a href="#"><?php echo $store["store_name"] ?></a></h4>
-						<a href="#">See all ads</a>
 					</div>
 					</div>
 
@@ -395,6 +409,14 @@ if (!isset($_SESSION["user_type"])) {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
 <script src="js/script.js"></script>
+
+<script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+<script src="js/add-to-cart.js"></script>
+<script src="jquery-3.6.0.min.js"></script>
 
 </body>
 
