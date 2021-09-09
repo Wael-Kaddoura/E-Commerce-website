@@ -67,6 +67,11 @@ $result2= $stmt2->get_result();
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="jquery-3.6.0.min.js"></script>
+
+
 </head>
 
 <body class="body-wrapper">
@@ -145,12 +150,8 @@ $result2= $stmt2->get_result();
 					<!-- User Widget -->
 					<div class="widget user-dashboard-profile">
 						<!-- User Image -->
-						<div class="profile-thumb">
-							<img src="images/user/user-thumb.jpg" alt="" class="rounded-circle">
-						</div>
 						<!-- User Name -->
 						<h5 class="text-center"><?php echo $row1["store_name"]; ?></h5>
-						<a href="user-profile.html" class="btn btn-main-sm">Edit Profile</a>
 					</div>
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
@@ -205,7 +206,7 @@ $result2= $stmt2->get_result();
 						<?php
 					while($row2 = $result2->fetch_assoc()){
 				    ?>
-							<tr>
+							<tr id = "row<?php echo $row2["id"]; ?>">
 								<td class="product-thumb">
 									<img width="80px" height="auto" src="<?php echo $row2["item_image"]; ?>" alt="image description"></td>
 								<td class="product-details">
@@ -218,18 +219,22 @@ $result2= $stmt2->get_result();
 									<div class="">
 										<ul class="list-inline justify-content-center">
 											<li class="list-inline-item">
-												<a data-toggle="tooltip" data-placement="top" title="View" class="view" href="category.html">
+                        <a href="display-item.php?id=<?php echo $row2["id"]; ?>">
+                        <button data-placement="top" title="View" class="btn btn-info">
 													<i class="fa fa-eye"></i>
-												</a>
+                        </button>
+                        </a>
+
 											</li>
 											<li class="list-inline-item">
 												<a data-toggle="tooltip" data-placement="top" title="Edit" class="edit" href="">
 													<i class="fa fa-pencil"></i>
 												</a>
 											</li>
-											<li class="list-inline-item">
-												<a data-toggle="tooltip" data-placement="top" title="Delete" class="delete" href="">
-													<i class="fa fa-trash"></i>
+											<li class="list-inline-item">													
+                          <button  data-placement="top" title="Delete" class=" btn btn-danger delete-item" value = <?php echo $row2["id"]; ?>>
+                          <i class="fa fa-trash"></i>
+                          </button>
 												</a>
 											</li>
 										</ul>
@@ -372,6 +377,14 @@ $result2= $stmt2->get_result();
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
 <script src="js/script.js"></script>
+
+<script src="bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+
+<script src="js/delete-item.js"></script>
 
 </body>
 
