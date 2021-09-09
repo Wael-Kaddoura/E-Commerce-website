@@ -226,16 +226,20 @@ $result2= $stmt2->get_result();
                         </a>
 
 											</li>
-											<li class="list-inline-item">
-												<a data-toggle="tooltip" data-placement="top" title="Edit" class="edit" href="">
-													<i class="fa fa-pencil"></i>
-												</a>
-											</li>
+
+                      <a href="edit-item.php?id=<?php echo $row2["id"]; ?>">
+                        <button data-placement="top" title="View" class="btn btn-success">
+                        <i class="fa fa-pencil"></i>
+                        </button>
+                        </a>
+
+                      
 											<li class="list-inline-item">													
-                          <button  data-placement="top" title="Delete" class=" btn btn-danger delete-item" value = <?php echo $row2["id"]; ?>>
+                      <a>
+                      <button  data-placement="top" title="Delete" class=" btn btn-danger delete-item" value = <?php echo $row2["id"]; ?>>
                           <i class="fa fa-trash"></i>
                           </button>
-												</a>
+                      </a>
 											</li>
 										</ul>
 									</div>

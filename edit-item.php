@@ -1,9 +1,24 @@
 <?php
-session_start();
 
-if (!isset($_SESSION["logedin"])) {
-	$_SESSION["logedin"] = false ;
-  }
+    include "php/connection.php";
+
+    session_start();
+
+    if (!isset($_SESSION["logedin"])) {
+        $_SESSION["logedin"] = false ;
+    }
+
+    $item_id = $_GET["id"];
+
+    $_SESSION["item_id"] = $item_id;
+
+    $query1 = "SELECT * FROM `items` WHERE id = ?";
+    $stmt1 = $connection->prepare($query1);
+    $stmt1 -> bind_param("i", $item_id);
+    $stmt1->execute();
+    $result1= $stmt1->get_result();
+    $row1 = $result1 -> fetch_assoc();
+  
 ?>
 
 <!DOCTYPE html>
@@ -110,19 +125,20 @@ if (!isset($_SESSION["logedin"])) {
 
 <section class="ad-post bg-gray py-5">
     <div class="container">
-        <form method="POST" id="item-form" action="php/post-item.php">
+        <form method="POST" id="item-form" action="php/edit-item.php">
             <!-- Post Your ad start -->
             <fieldset class="border border-gary p-4 mb-5">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Post Your Item</h3>
+                            <h3>Edit Your Item</h3>
                         </div>
                         <div class="col-lg-6">
                             <h6 class="font-weight-bold pt-4 pb-1">Name Of Item:</h6>
-                            <input required type="text" class="border w-100 p-2 bg-white text-capitalize" name="item_name" placeholder="Item Name">
+                            <input required type="text" class="border w-100 p-2 bg-white text-capitalize" name="item_name" value = "<?php echo $row1["name"]; ?>">
                        
                             <h6 class="font-weight-bold pt-4 pb-1">Description:</h6>
-                            <textarea required id="" class="border p-3 w-100" rows="7" name="item_desc" placeholder="Write details about your product"></textarea>
+                            <textarea required id="" class="border p-3 w-100" rows="7" name="item_desc" ><?php echo $row1["description"]; ?>
+                            </textarea>
                         </div>
                         <div class="col-lg-6">
                             <h6 class="font-weight-bold pt-4 pb-1">Select Item Category:</h6>
@@ -139,7 +155,7 @@ if (!isset($_SESSION["logedin"])) {
                                 <h6 class="font-weight-bold pt-4 pb-1">Item Price ($ USD):</h6>
                                 <div class="row px-3">
                                     <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
-                                        <input required type="text" name="price" class="border-0 py-2 w-100 price" placeholder="Price"
+                                        <input required type="text" name="price" class="border-0 py-2 w-100 price" value = "<?php echo $row1["price"]; ?>"
                                             id="price">
                                     </div>
                                 </div>
@@ -149,7 +165,7 @@ if (!isset($_SESSION["logedin"])) {
                               <h6 class="font-weight-bold pt-4 pb-1">Available Quantity:</h6>
                               <div class="row px-3">
                                   <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
-                                      <input required type="text" name="qty" class="border-0 py-2 w-100 price" placeholder="Quantity"
+                                      <input required type="text" name="qty" class="border-0 py-2 w-100 price" value = "<?php echo $row1["qty"]; ?>"
                                           id="qty">
                                   </div>
                               </div>
@@ -159,7 +175,7 @@ if (!isset($_SESSION["logedin"])) {
                               <h6 class="font-weight-bold pt-4 pb-1">Item Image Link:</h6>
                               <div class="row px-3">
                                   <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
-                                      <input required type="text" name="item_image" class="border-0 py-2 w-100 price" placeholder="Image Link"
+                                      <input required type="text" name="item_image" class="border-0 py-2 w-100 price" value = "<?php echo $row1["item_image"]; ?>"
                                           id="item-image">
                                   </div>
                               </div>
@@ -174,7 +190,7 @@ if (!isset($_SESSION["logedin"])) {
 
             <!-- submit button -->
            
-            <button type="submit" id = "post-button" class="btn btn-primary d-block mt-2">Post Your Item</button>
+            <button type="submit" id = "post-button" class="btn btn-primary d-block mt-2">Edit Your Item</button>
         </form>
     </div>
 </section>
