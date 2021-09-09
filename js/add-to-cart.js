@@ -27,6 +27,11 @@ $(".remove").click(function () {
     parseInt($("#qty" + $(this).val()).text()) - 1
   );
 
+  console.log(parseInt($("#qty" + $(this).val()).text()));
+  if (parseInt($("#qty" + $(this).val()).text()) <= 0) {
+    $("#row" + $(this).val()).remove();
+  }
+
   $("#cart-counter").text(parseInt($("#cart-counter").text()) - 1);
 
   $.post("php/remove-from-cart.php", { item_id: $(this).val() });

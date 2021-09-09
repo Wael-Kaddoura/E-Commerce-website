@@ -18,6 +18,9 @@ if ($_SESSION["logedin"]) {
 	$result1 = $stmt1->get_result();
 
   $num_cart_items = mysqli_num_rows($result1);
+  if ($num_cart_items == 0) {
+    $num_cart_items = "";
+    }
 
 
 	$query2 = "SELECT *, COUNT(items.id) AS count FROM `items`, cart_items WHERE cart_items.user_id = ? AND items.id = cart_items.item_id group BY items.id";
@@ -192,7 +195,7 @@ if (!isset($_SESSION["new_purchase"])) {
                     while ($row = $result2->fetch_assoc()) {
                         ?>
 
-                <div class="row p-lg-3 p-sm-5 p-4">
+                <div id = "row<?php echo $row["item_id"]; ?>" class="row p-lg-3 p-sm-5 p-4">
                     <div class="col-lg-4 align-self-center">
                         <a href="display-item.php?id=<?php echo $row["item_id"]; ?>">
                             <img src="<?php echo $row["item_image"]; ?>" class="img-fluid" alt="">
