@@ -31,6 +31,9 @@ if ($_SESSION["logedin"]) {
 	$stmt3->execute();
 	$result3 = $stmt3->get_result();
 	$num_cart_items = mysqli_num_rows($result3);
+	if ($num_cart_items == 0) {
+		$num_cart_items = "";
+		}
 }else{
 	$num_cart_items= "";
 }
@@ -100,9 +103,16 @@ if (!isset($_SESSION["user_type"])) {
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item active">
+						<li class="nav-item active">
 								<a class="nav-link" href="index.php">Home</a>
 							</li>
+
+							<?php if ($_SESSION["user_type"] == "store") { ?>
+								<li class="nav-item">
+								<a class="nav-link" href="mydashboard.php">My Dashboard</a>
+								</li>
+							<?php } ?>
+
                             <li class="nav-item">
 								<a class="nav-link" href="all-items.php">See All Items</a>
 							</li>
@@ -110,7 +120,6 @@ if (!isset($_SESSION["user_type"])) {
                             <li class="nav-item">
 								<a class="nav-link" href="about-us.php">About Us</a>
 							</li>
-
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 						<li class="nav-item nav-link">

@@ -16,6 +16,10 @@ if ($_SESSION["logedin"]) {
 	$stmt2->execute();
 	$result2 = $stmt2->get_result();
 	$num_cart_items = mysqli_num_rows($result2);
+
+	if ($num_cart_items == 0) {
+	$num_cart_items = "";
+	}
 }else{
 	$num_cart_items= "";
 }
