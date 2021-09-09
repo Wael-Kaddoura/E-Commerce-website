@@ -183,7 +183,7 @@ if (!isset($_SESSION["user_type"])) {
 											</ul>
 											<h4 class="card-title"><a href="single.html"></a>$<?php echo $row["price"]; ?></h4>
 											<p class="card-text"><?php echo $row["description"]; ?></p>
-											<?php if($_SESSION["user_type"] == "user"){ ?>
+											<?php if($_SESSION["user_type"] == "user" && $_SESSION["logedin"]){ ?>
 												<button type="button" value="<?php echo $row["id"]; ?>" id = "" class="add-to-cart btn btn-success"><i class="fa fa-plus-circle"></i> Add To Cart</button>
 
 												<?php } ?>
