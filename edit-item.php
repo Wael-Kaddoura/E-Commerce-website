@@ -18,6 +18,10 @@
     $stmt1->execute();
     $result1= $stmt1->get_result();
     $row1 = $result1 -> fetch_assoc();
+
+    $item_category = $row1["category"];
+
+  
   
 ?>
 
@@ -143,14 +147,16 @@
                         <div class="col-lg-6">
                             <h6 class="font-weight-bold pt-4 pb-1">Select Item Category:</h6>
                             <select name="item_category" id="item-category" class="w-100">
-                                <option disabled selected value="1">Select category</option>
-                                <option value="Phones">Phones</option>
-                                <option value="Cases">Cases</option>
-                                <option value="Chargers">Chargers</option>
-                                <option value="Earphones">Earphones</option>
-                                <option value="Laptops">Laptops</option>
-                                <option value="Other">Other</option>
+                                <option disabled value="1">Select category</option>
+                                <option <?php if ($item_category == "Phones") {echo "selected"; } ?> value="Phones">Phones</option>
+                                <option <?php if ($item_category == "Cases") {echo "selected"; } ?> value="Cases">Cases</option>
+                                <option <?php if ($item_category == "Chargers") {echo "selected"; } ?> value="Chargers">Chargers</option>
+                                <option <?php if ($item_category == "Earphones") {echo "selected"; } ?> value="Earphones">Earphones</option>
+                                <option <?php if ($item_category == "Laptops") {echo "selected"; } ?> value="Laptops">Laptops</option>
+                                <option <?php if ($item_category == "Other") {echo "selected"; } ?> value="Other">Other</option>
                             </select>
+                            
+                        
                             <div class="price">
                                 <h6 class="font-weight-bold pt-4 pb-1">Item Price ($ USD):</h6>
                                 <div class="row px-3">
