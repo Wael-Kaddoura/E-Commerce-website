@@ -4,7 +4,7 @@ include "php/connection.php";
 
 session_start();
 
-$query = "Select * from items";
+$query = "SELECT * FROM items";
 $stmt = $connection->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -22,7 +22,7 @@ if ($_SESSION["logedin"]) {
 	$num_cart_items = mysqli_num_rows($result2);
   if ($num_cart_items == 0) {
     $num_cart_items = "";
-    }
+    }  
 }else{
 	$num_cart_items= "";
 }
@@ -156,7 +156,7 @@ if (!isset($_SESSION["user_type"])) {
 			</div>
 		</div>
 		<div class="row">
-			>
+			
 			<div class="col-md-12">
 				<div class="product-grid-list">
 					<div class="row mt-30">
@@ -184,7 +184,19 @@ if (!isset($_SESSION["user_type"])) {
 											<h4 class="card-title"><a href="single.html"></a>$<?php echo $row["price"]; ?></h4>
 											<p class="card-text"><?php echo $row["description"]; ?></p>
 											<?php if($_SESSION["user_type"] == "user" && $_SESSION["logedin"]){ ?>
-												<button type="button" value="<?php echo $row["id"]; ?>" id = "" class="add-to-cart btn btn-success"><i class="fa fa-plus-circle"></i> Add To Cart</button>
+												<button 
+                        <?php 
+                          $query3 = "SELECT * FROM `cart_items` WHERE user_id = ? AND item_id = ?";
+                          $stmt3 = $connection->prepare($query3);
+                          $stmt3 -> bind_param("ss", $_SESSION["user_id"], $row["id"]);
+                          $stmt3->execute();
+                          $result3 = $stmt3->get_result();
+                          $row3 = $result3 -> fetch_assoc();
+                          if (!empty($row3)) {
+                            echo "disabled";
+                          }
+                         ?>
+                        type="button" value="<?php echo $row["id"]; ?>" id = "" class="add-to-cart btn btn-success"><i class="fa fa-plus-circle"></i> Add To Cart</button>
 
 												<?php } ?>
 										</div>
